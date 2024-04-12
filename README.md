@@ -1,4 +1,168 @@
 # 임동욱 학번202330127
+## 4월 12일 강의
+## static 멤버의 생성
+static 멤버는 클래스당 하나만 생성  
+객체들에 의해 공유됨
+## static 멤버의 사용
+클래스 이름으로 접근가능  
+객체의 멤버로 접근 가능  
+static 멤버는 클래스 이름으로 접근 안됨
+## static 멤버의 예시
+```
+class Calc{
+    int foo;
+    static int bar;
+
+    public static int abs(int a){return a>0?a:-a;}
+    public static int max(int a, int b){return (a>b)?a:b;}
+    public static int min(int a, int b){return (a>b)?b:a;}
+}
+public class Ex4_11{
+public static void main(String[] args){
+    System.out.println(Calc.abs(-5));
+    System.out.println(Calc.max(a:10, b:8));
+    System.out.println(Calc.min(-3, -8));
+    Cal a = new Calc();
+    a.foo = 100;
+    Cal.bar=50;
+    System.out.println(a.foo);
+    System.out.println(Calc.bar);
+    }
+}
+```
+## static 메소드의 제약 조건
+static 메소드는 오직 static 멤버만 접근 가능  
+-객체가 생성되지 않은 상황에서도 staic 메소드는 실행될수 있기 떄문에 non-static 멤버 활용 불가  
+-non-static 메소드는 static 멤버 사용가능
+## static 메소드의 제약조건 2
+static 메소드는 this 사용불가  
+-static 메소드는 객체 없이도 사용 가능하므로 this레퍼런스 사용 불가
+## final 클래스와 메소드
+final class: 더이상 클래스 상속 불가능  
+final 메소드: 더이상 오버라이딩 불가능
+## final 필드
+final 필드, 상수 선언  
+-상수를 선언할때 사용  
+상수 필드는 선언시에 초기 값을 지정해야 한다  
+상수 필드는 실행중에 값을 변경 할수 없다 
+### 5장
+## 상속
+객체지향 상속  
+상속의 필요성  
+-상속이 없는경우 중복된 멤버를 가진 클래스  
+-상속을 이용한 경우 중복이 제거되고 간결해진 클래스 구조  
+-공통적인것을 뽑아내 사용하는것
+## 클래스 상속과 객체
+상속 선언  
+-extend 키워드로 선언  
+(부모 클래스를 물려 받아 확장한다는 의미)
+-부모 클래스 -> 슈퍼 클래스  
+-자식 클래스 -> 서브 클래스
+(colorPoint 는 Point를 물려 받으므로, Point에 선언된 필드와 메소드에 선언된 필드는 상관 없음)
+## 예제 5-1
+```
+package chapter05;
+
+public class Ex05_1{
+    public static void mian(String[] args) {
+        Point p = new Point();
+        p.set(x:1, y:2);
+        p.showPoint();
+        
+        ColorPoint cp=new ColorPoint();
+        cp.set(x:3, y:4);
+        cp.setColor(color:"red");
+        cp.showColorPoint();
+        }
+    }       
+    class Point{
+        private int x,y;
+        public void set(int x, int y){
+            this.x = x;
+            this.y = y;
+        }
+        public void showPoint
+        System.out.println("("+x+","+y+")");
+    }
+
+class ColorPoint extends Point{
+    private String color;
+    public void setColor(String color){
+        this.color=color;
+    }
+    public void showColorPoint(){
+        System.out.println(color);
+        showPoint();
+    }
+}
+```
+## 서브 클래스 객체의 모양
+슈퍼 클래스 객체와 서브 클래스의 객체는 별개  
+서브 클래스 객체는 슈퍼 클래스 멤버 포함
+## 슈퍼 클래스의 멤버에 대한 서브 클래스의 접근 
+슈퍼 클래스의 private 멤버  
+-서브 클래스에서 접근할 수 없음  
+슈퍼 클래스의 디폴트 멤버  
+-서브 클래스가 동일한 패키지에 있을때 접근 가능  
+슈퍼 클래스의 public멤버  
+-서브 클래스는 항상 접근가능  
+슈퍼 클래스의 protected 멤버  
+-같은 패키지 내의 모든 클래스 접근 허용 패키지 여부와 상관 없이 서브클래스는 접근 가능
+## protected 멤버
+같은 패키지의 모든 클래스에게 허용  
+상속되는 서브 클래스(같은 패키지든 다른 패키지든 상관 없음)에게 허용
+## 서브/슈퍼 클래스의 생성자 호출과 실행
+서브 클래스의 객체가 생성 될때  
+-슈퍼 클래스 생성자와 서브 클래스 생성자 모두 실행  
+## 서브/슈퍼 클래스의 생성자 선택
+슈퍼 클래스와 서브 클래스  
+-각각 여러개의 생성자 작성가능  
+서브 클래스의 객체가 생성 될때  
+-슈퍼 클래스 생성자 1개와 서브 클래스 생성자 1개가 실행  
+서브/슈퍼 클래스의 생성자가 결정되는 방식  
+1. 개발자의 명시적 선택  
+-서브 클래스 개발자가 슈퍼 클래스의 생성자 명시적 선택  
+2. 컴파일러가 기본 생성자 선택  
+-서브 클래스 개발자가 슈퍼 클래스의 생성자를 선택하지 않은경우  
+## super()로 슈퍼 클래스의 생성자 명시적 선택
+서브 클래스에서 명시적으로 슈퍼 클래스의 생성자 선택 호출
+## 업캐스팅
+서브 클래스의 레퍼런스를 슈퍼 클래스 레퍼런스에 대입   
+슈퍼 클래스 레퍼런스로 서브 클래스 객체를 가리키게 되는 현상
+## 다운캐스팅
+슈퍼 클래스 레퍼런스를 서브 클래스 레퍼런스에 대입  
+업캐스팅된 것을 다시 원래대로 되돌리는것  
+반드시 명시적 타입 변환 지정
+## 업캐스팅 레퍼런스로 객체 구별
+업캐스팅된 레퍼런스로는 객체의 실제 타입을 구분하기 어려움
+## instanceof 연산자
+레퍼런스가 가리키는 객체의 타입 식별
+## 메소드 오버라이딩
+서브 클래스에서 슈퍼 클래스의 메소드 중복 작성  
+슈퍼 클래스의메소드 무력화 항상 서브 클래스에 오버라이딩한 메소드가 실행되도록 보장  
+## 오버라이딩 조건
+슈퍼 클래스 메소드의 원형(메소드이름 인자 타입 및 개수, 리턴타입) 동일하게 작성
+## 오버라이딩 목적
+하나의 인터페이스에 서로 다른 구현  
+슈퍼 클래스의 메소드를 서브 클래스에서 각각 목적에 맞게 다르게 구현
+## super 키워드로 슈퍼 클래스의 멤버 접근
+슈퍼 클래스의 멤버를 접근할떄 사용되는 레퍼런스(super.멤버)  
+서브 클래스에서만 사용  
+슈퍼 클래스의 필드 접근  
+슈퍼 클래스의 메소드 호출시  
+super로 잉루어 지는 메소드호출: 정적 바인딩
+## 오버로딩
+관계: 같은 클래스나 상속 관계에서 동일한 이름의 메소드 중복 작성  
+: 동일한 클래스내 혹은 상속 관계  
+: 이름이 같은 여러개의 메소드를 중복 선언하여 편리성 향상  
+조건: 메소드 이름은 반드시 동일, 메소드의 인자 개수나 인자의 타입이 달라야 성립  
+바인딩: 정적 바인딩 컴파일 시에 중복된 메소드 중 호출되는 메소드 결정
+## 추상 메소드
+abstract로 선언된 메소드, 메소드의 코드는 없고 원형만 선언
+## 추상 클래스
+추상 메소드를 가지며 abstract로 선언된 클래스  
+추상 메소드 없이 abstract로 선언한 클래스
+
 ## 4월 5일 강의
 ## 메소드의 배열 리턴
 배열 리턴  
